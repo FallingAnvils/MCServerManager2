@@ -13,7 +13,7 @@ namespace MCServerManager2
             return file.Substring(0, file.LastIndexOf("/")) + "/";
         }
 
-        public static string CommonStartsWith(IEnumerable<string> strings)
+        public static string CommonStartsWith(params string[] strings)
         {
             return new string(strings.First().Substring(0, strings.Min(s => s.Length)).TakeWhile((c, i) => strings.All(s => s[i] == c)).ToArray());
         }

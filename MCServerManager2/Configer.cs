@@ -26,5 +26,7 @@ namespace MCServerManager2
         public string ServerPath;
         public string Editor;
         public bool ExpandAllOnStart;
+        public string MountPoint;
+        public string RemoteLocation;
     }
 }

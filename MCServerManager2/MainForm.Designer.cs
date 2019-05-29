@@ -68,6 +68,7 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.documentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFolder_Button = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -311,6 +312,7 @@
             this.flowLayoutPanel1.Controls.Add(this.expandLists_Button);
             this.flowLayoutPanel1.Controls.Add(this.deleteInstances_Button);
             this.flowLayoutPanel1.Controls.Add(this.openMonitor_Button);
+            this.flowLayoutPanel1.Controls.Add(this.openFolder_Button);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -465,16 +467,26 @@
             // documentationToolStripMenuItem
             // 
             this.documentationToolStripMenuItem.Name = "documentationToolStripMenuItem";
-            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.documentationToolStripMenuItem.Text = "Documentation";
             this.documentationToolStripMenuItem.Click += new System.EventHandler(this.documentationToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // openFolder_Button
+            // 
+            this.openFolder_Button.Location = new System.Drawing.Point(585, 3);
+            this.openFolder_Button.Name = "openFolder_Button";
+            this.openFolder_Button.Size = new System.Drawing.Size(75, 23);
+            this.openFolder_Button.TabIndex = 10;
+            this.openFolder_Button.Text = "Open Folder";
+            this.openFolder_Button.UseVisualStyleBackColor = true;
+            this.openFolder_Button.Click += new System.EventHandler(this.openFolder_Button_Click);
             // 
             // MainForm
             // 
@@ -550,6 +562,7 @@
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.Button deleteInstances_Button;
         private System.Windows.Forms.Button openMonitor_Button;
+        private System.Windows.Forms.Button openFolder_Button;
     }
 }
 

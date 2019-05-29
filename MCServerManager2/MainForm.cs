@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
@@ -65,6 +67,9 @@ namespace MCServerManager2
             {
                 cfg.Password = TextPrompt.Prompt("Enter the password", "Password", true, true);
             }
+
+            mountPoint_TextBox.Text = cfg.MountPoint;
+            remoteLocation_TextBox.Text = cfg.RemoteLocation;
 
             Editor = cfg.Editor;
 
@@ -314,7 +319,7 @@ namespace MCServerManager2
                                 var instpath = idleInstances_TreeView.SelectedNode.FullPath;
                                 var wizard = new InstanceCreationWizard();
                                 wizard.Order = new[] { CreatorTab.Start, CreatorTab.DownloadLink };
-                                wizard.instanceName_TextBox.Text = instpath.Substring(MiscTools.CommonStartsWith(new[] { instpath, mcServerPath_TextBox.Text }).Length);
+                                wizard.instanceName_TextBox.Text = instpath.Substring(MiscTools.CommonStartsWith(instpath, mcServerPath_TextBox.Text).Length);
                                 wizard.BasePath = mcServerPath_TextBox.Text;
 
                                 var chooser = new InstallTypeChooser();
@@ -392,6 +397,13 @@ namespace MCServerManager2
             var monitorer = new ServerMonitorer();
             monitorer.ManagerHandler = handler;
             monitorer.Show();
+        }
+
+        private void openFolder_Button_Click(object sender, EventArgs e)
+        {
+            var selected = idleInstances_TreeView.SelectedNode.FullPath;
+            var loc = mountPoint_TextBox.Text + selected.Substring(MiscTools.CommonStartsWith(selected, remoteLocation_TextBox.Text).Length).Replace('/', Path.DirectorySeparatorChar);
+            Process.Start(loc);
         }
     }
 }
