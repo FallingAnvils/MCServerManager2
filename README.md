@@ -39,3 +39,5 @@ The config file is a simple JSON document, here is a sample with (hopefully) all
 On windows, just open visual studio and it should *hopefully* figure things out... If it wants dependencies open the nuget manager and install SSH.NET and Newtonsoft.Json
 
 On *nix, have ``msbuild`` or ``xbuild`` and ``nuget`` setup with mono. Run ``nuget restore`` in the directory of the solution file, then run ``xbuild`` or ``msbuild``.
+
+If ``nuget restore`` fails, or the build command fails, I don't know how to help you, mostly because I don't have your setup, and partly because I'm too lazy to try.
