@@ -1,5 +1,6 @@
 # MCServerManager2
 Yes, MCServerManager(1) is private, because it's a pile of garbage.
+Oh, and I have no idea what I'm doing when it comes to Git.
 
 A "cross-platform" manager for Minecraft servers.
 Cross platform means?
