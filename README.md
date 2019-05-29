@@ -40,4 +40,4 @@ On windows, just open visual studio and it should *hopefully* figure things out.
 
 On *nix, have ``msbuild`` or ``xbuild`` and ``nuget`` setup with mono. Run ``nuget restore`` in the directory of the solution file, then run ``xbuild`` or ``msbuild``.
 
-If ``nuget restore`` fails, or the build command fails, I don't know how to help you, mostly because I don't have your setup, and partly because I'm too lazy to try.
+Reminder to install ``mono-devel`` or ``mono-complete`` from the packages from the sources listed here: (so they come with msbuild) https://www.mono-project.com/download/stable/
