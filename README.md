@@ -32,6 +32,7 @@ The config file is a simple JSON document, here is a sample with (hopefully) all
 	"MountPoint": "/mnt/my_remote_server",
 	"RemoteLocation": "/where/does/the/mount/point/refer/to/on/the/server"
 }
+```
 
 # Building
 On windows, just open visual studio and it should *hopefully* figure things out... If it wants dependencies open the nuget manager and install SSH.NET and Newtonsoft.Json
