@@ -20,7 +20,7 @@ You also need **PuTTY INSTALLED ON THE CLIENT OS**
 * ``screen`` is used to separate the processes. If you don't have screen installed *bad stuff will happen*.
 
 # Config file
-The config file is a simple JSON document, here is a sample with (hopefully) all of the features used. If something isn't specified, it will use defaults or prompt you.
+The config file is a simple JSON document, named ``config.json`` in the directory of the executable. Here is a sample with (hopefully) all of the features used. If something isn't specified, it will use defaults or prompt you.
 ```json
 {
 	"Username": "user",
