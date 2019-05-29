@@ -52,6 +52,7 @@
             this.expandLists_Button = new System.Windows.Forms.Button();
             this.deleteInstances_Button = new System.Windows.Forms.Button();
             this.openMonitor_Button = new System.Windows.Forms.Button();
+            this.openFolder_Button = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -68,7 +69,6 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.documentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openFolder_Button = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -349,6 +349,16 @@
             this.openMonitor_Button.UseVisualStyleBackColor = true;
             this.openMonitor_Button.Click += new System.EventHandler(this.openMonitor_Button_Click);
             // 
+            // openFolder_Button
+            // 
+            this.openFolder_Button.Location = new System.Drawing.Point(585, 3);
+            this.openFolder_Button.Name = "openFolder_Button";
+            this.openFolder_Button.Size = new System.Drawing.Size(75, 23);
+            this.openFolder_Button.TabIndex = 10;
+            this.openFolder_Button.Text = "Open Folder";
+            this.openFolder_Button.UseVisualStyleBackColor = true;
+            this.openFolder_Button.Click += new System.EventHandler(this.openFolder_Button_Click);
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.panel2);
@@ -467,26 +477,16 @@
             // documentationToolStripMenuItem
             // 
             this.documentationToolStripMenuItem.Name = "documentationToolStripMenuItem";
-            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.documentationToolStripMenuItem.Text = "Documentation";
             this.documentationToolStripMenuItem.Click += new System.EventHandler(this.documentationToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
-            // 
-            // openFolder_Button
-            // 
-            this.openFolder_Button.Location = new System.Drawing.Point(585, 3);
-            this.openFolder_Button.Name = "openFolder_Button";
-            this.openFolder_Button.Size = new System.Drawing.Size(75, 23);
-            this.openFolder_Button.TabIndex = 10;
-            this.openFolder_Button.Text = "Open Folder";
-            this.openFolder_Button.UseVisualStyleBackColor = true;
-            this.openFolder_Button.Click += new System.EventHandler(this.openFolder_Button_Click);
             // 
             // MainForm
             // 

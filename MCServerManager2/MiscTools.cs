@@ -36,23 +36,6 @@ namespace MCServerManager2
                 worker.RunWorkerAsync();
             }
         }
-
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern uint SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
-        /// <summary>
-        /// Sets the parent of something, unless we're not on windows
-        /// </summary>
-        /// <param name="hWndChild"></param>
-        /// <param name="hWndNewParent"></param>
-        public static bool SetParentCrossCompatible(IntPtr hWndChild, IntPtr hWndNewParent)
-        {
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-            {
-                SetParent(hWndChild, hWndNewParent);
-                return true;
-            }
-            return false;
-        }
     }
 
     internal static class StringExtensions
