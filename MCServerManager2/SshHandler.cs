@@ -143,10 +143,8 @@ namespace MCServerManager2
 
         public IEnumerable<float> GetCpuFrequencies()
         {
-            var result = RunCommand("cat /proc/cpuinfo | grep MHz");
-            return Regex.Replace(string.Join("\n", result.StdOut.Split('\n').RemoveLastElement()), @"[^0-9\.\n]+", "")
-                .Split('\n')
-                .Select(x => float.Parse(x));
+            var result = RunCommand("cat /proc/cpuinfo | grep MHz | grep -oP \"[0-9\\.\\n]+\"");
+            return result.StdOut.Split('\n').RemoveLastElement().Select(x => float.Parse(x));
         }
     }
 
