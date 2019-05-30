@@ -94,12 +94,21 @@ namespace MCServerManager2
                 }
 
                 var cmdresult_freq = ManagerHandler.SshHandler.GetCpuFrequencies().ToArray();
-                var avg = cmdresult_freq.Average();
+                var avg = (int)cmdresult_freq.Average();
+                var max = (int)cmdresult_freq.Max();
+                var min = (int)cmdresult_freq.Min();
                 this.Invoke((MethodInvoker)(() => ((Label)cpuLoad_TableLayoutPanel.GetControlFromPosition(2, 1)).Text = (int)avg + " MHz"));
                 for (int i = 0; i < cmdresult_freq.Length; i++)
                 {
-                    var num = cmdresult_freq[i];
-                    this.Invoke((MethodInvoker)(() => ((Label)cpuLoad_TableLayoutPanel.GetControlFromPosition(2, i + 2)).Text = (int)num + " MHz"));
+                    var num = (int)cmdresult_freq[i];
+
+                    this.Invoke((MethodInvoker)(() => {
+                        var lbl = ((Label)cpuLoad_TableLayoutPanel.GetControlFromPosition(2, i + 2));
+                        lbl.Text = (int)num + " MHz";
+                        if (num == max) lbl.ForeColor = Color.Red;
+                        else if (num == min) lbl.ForeColor = Color.Blue;
+                        else if (lbl.ForeColor != Color.Black) lbl.ForeColor = Color.Black;
+                    }));
                 }
 
             }

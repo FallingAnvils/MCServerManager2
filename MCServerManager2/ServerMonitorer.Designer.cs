@@ -33,6 +33,8 @@
             this.label100 = new System.Windows.Forms.Label();
             this.label98 = new System.Windows.Forms.Label();
             this.label116 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.externalIP_Label = new System.Windows.Forms.Label();
             this.localIP_Label = new System.Windows.Forms.Label();
@@ -55,8 +57,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.topLines_NumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.cpuLoad_TableLayoutPanel.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -120,6 +120,24 @@
             this.label116.Size = new System.Drawing.Size(18, 13);
             this.label116.TabIndex = 35;
             this.label116.Text = "All";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(212, 20);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(38, 13);
+            this.label3.TabIndex = 37;
+            this.label3.Text = "? MHz";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(212, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(57, 13);
+            this.label4.TabIndex = 38;
+            this.label4.Text = "Frequency";
             // 
             // tableLayoutPanel1
             // 
@@ -289,7 +307,7 @@
             this.tableLayoutPanel2.Location = new System.Drawing.Point(524, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 65F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(352, 446);
             this.tableLayoutPanel2.TabIndex = 10;
@@ -298,12 +316,12 @@
             // 
             this.top_TextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.top_TextBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.top_TextBox.Location = new System.Drawing.Point(3, 103);
+            this.top_TextBox.Location = new System.Drawing.Point(3, 68);
             this.top_TextBox.Multiline = true;
             this.top_TextBox.Name = "top_TextBox";
             this.top_TextBox.ReadOnly = true;
             this.top_TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.top_TextBox.Size = new System.Drawing.Size(346, 340);
+            this.top_TextBox.Size = new System.Drawing.Size(346, 375);
             this.top_TextBox.TabIndex = 0;
             this.top_TextBox.WordWrap = false;
             // 
@@ -320,9 +338,9 @@
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 2;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(346, 94);
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(346, 59);
             this.tableLayoutPanel3.TabIndex = 1;
             // 
             // topSortBy_ComboBox
@@ -365,7 +383,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 47);
+            this.label2.Location = new System.Drawing.Point(3, 27);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(32, 13);
             this.label2.TabIndex = 2;
@@ -374,7 +392,7 @@
             // topLines_NumericUpDown
             // 
             this.topLines_NumericUpDown.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.topLines_NumericUpDown.Location = new System.Drawing.Point(49, 50);
+            this.topLines_NumericUpDown.Location = new System.Drawing.Point(49, 30);
             this.topLines_NumericUpDown.Maximum = new decimal(new int[] {
             2147483647,
             0,
@@ -388,24 +406,6 @@
             0,
             0,
             0});
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(212, 20);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(0, 13);
-            this.label3.TabIndex = 37;
-            this.label3.Text = "? MHz";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(212, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(57, 13);
-            this.label4.TabIndex = 38;
-            this.label4.Text = "Frequency";
             // 
             // ServerMonitorer
             // 
