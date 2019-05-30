@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace MCServerManager2
 {
@@ -138,6 +139,14 @@ namespace MCServerManager2
                 .Split('\n')
                 .RemoveLastElement()
                 .RemoveLastElement();   
+        }
+
+        public IEnumerable<float> GetCpuFrequencies()
+        {
+            var result = RunCommand("cat /proc/cpuinfo | grep MHz");
+            return Regex.Replace(string.Join("\n", result.StdOut.Split('\n').RemoveLastElement()), @"[^0-9\.\n]+", "")
+                .Split('\n')
+                .Select(x => float.Parse(x));
         }
     }
 
