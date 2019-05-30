@@ -55,6 +55,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.topLines_NumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.cpuLoad_TableLayoutPanel.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -66,32 +68,19 @@
             // cpuLoad_TableLayoutPanel
             // 
             this.cpuLoad_TableLayoutPanel.AutoScroll = true;
-            this.cpuLoad_TableLayoutPanel.ColumnCount = 2;
+            this.cpuLoad_TableLayoutPanel.ColumnCount = 3;
             this.cpuLoad_TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.cpuLoad_TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.cpuLoad_TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.cpuLoad_TableLayoutPanel.Controls.Add(this.progressBar1, 1, 1);
             this.cpuLoad_TableLayoutPanel.Controls.Add(this.label100, 1, 0);
             this.cpuLoad_TableLayoutPanel.Controls.Add(this.label98, 0, 0);
             this.cpuLoad_TableLayoutPanel.Controls.Add(this.label116, 0, 1);
+            this.cpuLoad_TableLayoutPanel.Controls.Add(this.label3, 2, 1);
+            this.cpuLoad_TableLayoutPanel.Controls.Add(this.label4, 2, 0);
             this.cpuLoad_TableLayoutPanel.Location = new System.Drawing.Point(246, 3);
             this.cpuLoad_TableLayoutPanel.Name = "cpuLoad_TableLayoutPanel";
             this.cpuLoad_TableLayoutPanel.RowCount = 2;
-            this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.cpuLoad_TableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.cpuLoad_TableLayoutPanel.Size = new System.Drawing.Size(272, 449);
@@ -102,7 +91,7 @@
             this.progressBar1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.progressBar1.Location = new System.Drawing.Point(38, 23);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(231, 423);
+            this.progressBar1.Size = new System.Drawing.Size(168, 423);
             this.progressBar1.TabIndex = 36;
             // 
             // label100
@@ -400,6 +389,24 @@
             0,
             0});
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(212, 20);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(0, 13);
+            this.label3.TabIndex = 37;
+            this.label3.Text = "? MHz";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(212, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(57, 13);
+            this.label4.TabIndex = 38;
+            this.label4.Text = "Frequency";
+            // 
             // ServerMonitorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -454,5 +461,7 @@
         private System.Windows.Forms.ComboBox topSortBy_ComboBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown topLines_NumericUpDown;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }

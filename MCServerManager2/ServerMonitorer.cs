@@ -40,6 +40,7 @@ namespace MCServerManager2
                             cpuLoad_TableLayoutPanel.RowStyles.Add(rowstyle);
                             cpuLoad_TableLayoutPanel.Controls.Add(new Label() { Text = "" + i, AutoSize = true });
                             cpuLoad_TableLayoutPanel.Controls.Add(new ProgressBar() { Dock = DockStyle.Fill });
+                            cpuLoad_TableLayoutPanel.Controls.Add(new Label() { Text = "? MHz", AutoSize = true });
                         }));
                     }
                     this.Invoke((MethodInvoker)(() =>
@@ -53,12 +54,13 @@ namespace MCServerManager2
 
         private void PopulateStaticStatTable()
         {
-            CommandResultTuple cmdresult = null;
-            MiscTools.SpawnBackgroundWorker(() => cmdresult = ManagerHandler.SshHandler.RunCommand("mpstat -o JSON"), () =>
+            CommandResultTuple usageCmdResult = null;
+
+            MiscTools.SpawnBackgroundWorker(() => usageCmdResult = ManagerHandler.SshHandler.RunCommand("mpstat -o JSON"), () =>
             {
-                if (cmdresult.ExitCode == 0)
+                if (usageCmdResult.ExitCode == 0)
                 {
-                    var result = JsonConvert.DeserializeObject<MPStatResult>(cmdresult.StdOut);
+                    var result = JsonConvert.DeserializeObject<MPStatResult>(usageCmdResult.StdOut);
                     var localip = ManagerHandler.SshHandler.RunCommandSafe("hostname -I | sed 's/ /\\n/' | head -n 1").StdOut;
                     var extip = ManagerHandler.SshHandler.RunCommandSafe("curl ipinfo.io/ip").StdOut;
 
@@ -81,8 +83,8 @@ namespace MCServerManager2
         {
             while(Visible)
             {
-                var cmdresult = ManagerHandler.SshHandler.RunCommandSafe("mpstat -P ALL 1 1 -o JSON");
-                var result = JsonConvert.DeserializeObject<MPStatResult>(cmdresult.StdOut);
+                var cmdresult_load = ManagerHandler.SshHandler.RunCommandSafe("mpstat -P ALL 1 1 -o JSON");
+                var result = JsonConvert.DeserializeObject<MPStatResult>(cmdresult_load.StdOut);
                 var a = result.SysStat.Hosts[0];
                 for (int i = 0; i < a.Statistics[0].CpuLoad.Length; i++)
                 {
@@ -90,6 +92,16 @@ namespace MCServerManager2
                     var usedPercent = (b.Usr + b.Nice + b.Sys + b.IOWait + b.IRQ + b.Soft + b.Steal + b.Guest + b.GNice);
                     this.Invoke((MethodInvoker)(() => ((ProgressBar)cpuLoad_TableLayoutPanel.GetControlFromPosition(1, i + 1)).Value = (int)usedPercent));
                 }
+
+                var cmdresult_freq = ManagerHandler.SshHandler.GetCpuFrequencies().ToArray();
+                var avg = cmdresult_freq.Average();
+                this.Invoke((MethodInvoker)(() => ((Label)cpuLoad_TableLayoutPanel.GetControlFromPosition(2, 1)).Text = (int)avg + " MHz"));
+                for (int i = 0; i < cmdresult_freq.Length; i++)
+                {
+                    var num = cmdresult_freq[i];
+                    this.Invoke((MethodInvoker)(() => ((Label)cpuLoad_TableLayoutPanel.GetControlFromPosition(2, i + 2)).Text = (int)num + " MHz"));
+                }
+
             }
         }
 
