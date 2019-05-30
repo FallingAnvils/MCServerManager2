@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using Renci.SshNet;
 
 namespace MCServerManager2
 {
@@ -76,6 +77,17 @@ namespace MCServerManager2
             if (!cfg.ServerPath.IsNullOrWhiteSpace()) mcServerPath_TextBox.Text = cfg.ServerPath;
 
             handler = new ServerManagerHandler(cfg);
+
+            EventHandler<Renci.SshNet.Common.ExceptionEventArgs> sshError = (s, e2) =>
+            {
+                MessageBox.Show("An error has occurred: " + e2.Exception.Message);
+                Console.Error.WriteLine(e2.Exception.ToString());
+                connected_ToolStripLabel.Text = ((BaseClient)s).IsConnected ? "Connected" : "Failed to connect";
+            };
+
+            handler.SshHandler._Client.ErrorOccurred += sshError;
+            handler.SftpHandler._Client.ErrorOccurred += sshError;
+
             MiscTools.SpawnBackgroundWorker(() => connected_ToolStripLabel.Text = handler.Connect() ? "Connected" : "Failed to connect", () => {
                 if(handler.IsConnected) // things to run as soon as connected
                 {
@@ -85,7 +97,7 @@ namespace MCServerManager2
                 }
             });           
         }
-        
+
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (handler != null && handler.IsConnected) handler.Cleanup();
@@ -401,9 +413,13 @@ namespace MCServerManager2
 
         private void openFolder_Button_Click(object sender, EventArgs e)
         {
-            var selected = idleInstances_TreeView.SelectedNode.FullPath;
-            var loc = mountPoint_TextBox.Text + selected.Substring(MiscTools.CommonStartsWith(selected, remoteLocation_TextBox.Text).Length).Replace('/', Path.DirectorySeparatorChar);
-            Process.Start(loc);
+            TreeNode node;
+            if((node = idleInstances_TreeView.SelectedNode) != null)
+            {
+                var selected = node.FullPath;
+                var loc = mountPoint_TextBox.Text + selected.Substring(MiscTools.CommonStartsWith(selected, remoteLocation_TextBox.Text).Length).Replace('/', Path.DirectorySeparatorChar);
+                Process.Start(loc);
+            }
         }
     }
 }
