@@ -9,7 +9,7 @@ Cross platform means?
 
 # Requirements to use
 * a Unix (I use Linux, but it *might* work on other Unixes) server with an SSH/SFTP server and the following commands available:
-* ``rm``, ``find``, ``screen``, ``grep``, ``realpath``, ``tree``, ``while`` (at least ``while`` in bash, I guess), ``mpstat``, ``test``, ``cat``
+* ``rm``, ``find``, ``screen``, ``grep``, ``realpath``, ``tree``, ``while`` (at least ``while`` in bash, I guess), ``mpstat``, ``test``, ``cat``,, ``wget``, ``curl``
 * /proc/cpuinfo with a frequency for each core is needed (if it isn't like this it'll probably crash at the moment)
 
 **MAKE SURE YOU HAVE ALL OF THESE COMMANDS AVAILABLE WITH THE OPTIONS USED IN THE PROGRAM!!! AND YOU NEED SFTP!!!**
