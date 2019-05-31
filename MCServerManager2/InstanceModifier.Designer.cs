@@ -38,6 +38,7 @@
             this.uploadFiles_Button = new System.Windows.Forms.Button();
             this.expandToInstance_Button = new System.Windows.Forms.Button();
             this.download_Button = new System.Windows.Forms.Button();
+            this.installJar_Button = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -106,6 +107,7 @@
             this.flowLayoutPanel1.Controls.Add(this.uploadFiles_Button);
             this.flowLayoutPanel1.Controls.Add(this.expandToInstance_Button);
             this.flowLayoutPanel1.Controls.Add(this.download_Button);
+            this.flowLayoutPanel1.Controls.Add(this.installJar_Button);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(678, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -152,6 +154,16 @@
             this.download_Button.UseVisualStyleBackColor = true;
             this.download_Button.Click += new System.EventHandler(this.download_Button_Click);
             // 
+            // installJar_Button
+            // 
+            this.installJar_Button.Location = new System.Drawing.Point(3, 206);
+            this.installJar_Button.Name = "installJar_Button";
+            this.installJar_Button.Size = new System.Drawing.Size(110, 23);
+            this.installJar_Button.TabIndex = 8;
+            this.installJar_Button.Text = "Install Mod/Plugin";
+            this.installJar_Button.UseVisualStyleBackColor = true;
+            this.installJar_Button.Click += new System.EventHandler(this.installJar_Button_Click);
+            // 
             // InstanceModifier
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -179,5 +191,6 @@
         private System.Windows.Forms.Button uploadFiles_Button;
         private System.Windows.Forms.Button expandToInstance_Button;
         private System.Windows.Forms.Button download_Button;
+        private System.Windows.Forms.Button installJar_Button;
     }
 }

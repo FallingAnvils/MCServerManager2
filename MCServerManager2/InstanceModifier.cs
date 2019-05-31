@@ -151,5 +151,52 @@ namespace MCServerManager2
                 MessageBox.Show("Selected node is not a file");
             }
         }
+
+        private void installJar_Button_Click(object sender, EventArgs e)
+        {
+            if(fileList_TreeView.SelectedNode != null)
+            {
+                var dir = fileList_TreeView.SelectedNode.FullPath;
+                var result = TextPrompt.Prompt("Enter the URL to download", "Install JAR", false, false);
+                if (result != null)
+                {
+                    Pause();
+                    var realurl = ManagerHandler.SshHandler.RunCommand("curl -Ls -w %{url_effective} -o /dev/null " + result).StdOut;
+                    var newname = realurl.Split('/').Last();  // not the full path
+                    var modname = newname.Split('-').First(); // the name of the mod, e.g. "worldedit" in "worldedit-5.2.5.jar"
+
+                    bool isOldVersionInstalled = false;
+                    var oldVersion = string.Empty; // full path
+                    foreach (var item in ManagerHandler.SftpHandler._Client.ListDirectory(dir))
+                    {
+                        if (item.IsRegularFile && item.Name.Contains(modname))
+                        {
+                            isOldVersionInstalled = true;
+                            oldVersion = item.FullName;
+                        }
+                    }
+
+                    if (isOldVersionInstalled)
+                    {
+                        if (MessageBox.Show("Mod " + modname.Quotate() + " is already installed. You are replacing version " + oldVersion.Split('/').Last().Quotate() + " with version " + newname.Quotate() + ". Yes (replace) or No (don't replace)?", "Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            ManagerHandler.SftpHandler._Client.DeleteFile(oldVersion);
+
+                            ManagerHandler.SshHandler.RunCommand(("cd " + dir).CombineCommand("wget --content-disposition " + realurl));
+                        }
+                    }
+                    else
+                    {
+                        ManagerHandler.SshHandler.RunCommand(("cd " + dir).CombineCommand("wget --content-disposition " + realurl));
+                    }
+                    Resume();
+                    RefreshFileList();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select a directory to install to (the mods or plugins folder)");
+            }
+        }
     }
 }

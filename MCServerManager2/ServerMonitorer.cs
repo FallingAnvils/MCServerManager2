@@ -85,10 +85,10 @@ namespace MCServerManager2
             {
                 var cmdresult_load = ManagerHandler.SshHandler.RunCommandSafe("mpstat -P ALL 1 1 -o JSON");
                 var result = JsonConvert.DeserializeObject<MPStatResult>(cmdresult_load.StdOut);
-                var a = result.SysStat.Hosts[0];
-                for (int i = 0; i < a.Statistics[0].CpuLoad.Length; i++)
+                var host = result.SysStat.Hosts[0];
+                for (int i = 0; i < host.Statistics[0].CpuLoad.Length; i++)
                 {
-                    var b = a.Statistics[0].CpuLoad[i];
+                    var b = host.Statistics[0].CpuLoad[i];
                     var usedPercent = (b.Usr + b.Nice + b.Sys + b.IOWait + b.IRQ + b.Soft + b.Steal + b.Guest + b.GNice);
                     this.Invoke((MethodInvoker)(() => ((ProgressBar)cpuLoad_TableLayoutPanel.GetControlFromPosition(1, i + 1)).Value = (int)usedPercent));
                 }
@@ -97,14 +97,14 @@ namespace MCServerManager2
                 var avg = (int)cmdresult_freq.Average();
                 var max = (int)cmdresult_freq.Max();
                 var min = (int)cmdresult_freq.Min();
-                this.Invoke((MethodInvoker)(() => ((Label)cpuLoad_TableLayoutPanel.GetControlFromPosition(2, 1)).Text = (int)avg + " MHz"));
+                this.Invoke((MethodInvoker)(() => ((Label)cpuLoad_TableLayoutPanel.GetControlFromPosition(2, 1)).Text = avg + " MHz"));
                 for (int i = 0; i < cmdresult_freq.Length; i++)
                 {
                     var num = (int)cmdresult_freq[i];
 
                     this.Invoke((MethodInvoker)(() => {
-                        var lbl = ((Label)cpuLoad_TableLayoutPanel.GetControlFromPosition(2, i + 2));
-                        lbl.Text = (int)num + " MHz";
+                        var lbl = (Label)cpuLoad_TableLayoutPanel.GetControlFromPosition(2, i + 2);
+                        lbl.Text = num + " MHz";
                         if (num == max) lbl.ForeColor = Color.Red;
                         else if (num == min) lbl.ForeColor = Color.Blue;
                         else if (lbl.ForeColor != Color.Black) lbl.ForeColor = Color.Black;
@@ -128,11 +128,11 @@ namespace MCServerManager2
         {
             while(Visible)
             {
-                int val = 0;
+                int headAmnt = 0;
                 string sort = string.Empty;
-                this.Invoke((MethodInvoker)(() => { sort = (string)topSortBy_ComboBox.SelectedItem; val = (int)topLines_NumericUpDown.Value; }));
+                this.Invoke((MethodInvoker)(() => { sort = (string)topSortBy_ComboBox.SelectedItem; headAmnt = (int)topLines_NumericUpDown.Value; }));
 
-                var result = ManagerHandler.SshHandler.RunCommandSafe($"top -b -n 1 -o {(sort.IsNullOrWhiteSpace() ? "+%CPU" : sort)} | head -n {val}")
+                var result = ManagerHandler.SshHandler.RunCommandSafe($"top -b -n 1 -o {(sort.IsNullOrWhiteSpace() ? "+%CPU" : sort)} | head -n {headAmnt}")
                     .StdOut
                     .Replace("\n", "\r\n");
                 this.Invoke((MethodInvoker)(() => {
