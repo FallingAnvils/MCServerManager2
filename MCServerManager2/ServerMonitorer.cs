@@ -22,6 +22,12 @@ namespace MCServerManager2
 
         public ServerManagerHandler ManagerHandler;
 
+
+        /// <summary>
+        /// Controls in the CPU Usage/Frequency table, with (0,0) at the All label, and positive Y going down
+        /// Don't use GetControlFromPosition, Mono likes to return null
+        /// </summary>
+        private Control[,] _CpuUsageTableControls;
         private void PopulateCpuUsageTable()
         {
             CommandResultTuple cmdresult = null;
@@ -31,6 +37,15 @@ namespace MCServerManager2
                 {
                     var result = JsonConvert.DeserializeObject<MPStatResult>(cmdresult.StdOut);
                     var numthreads = result.SysStat.Hosts[0].NumberOfCpus;
+
+                    _CpuUsageTableControls = new Control[3, numthreads];
+
+                    _CpuUsageTableControls = new Control[3, numthreads + 1];
+                    _CpuUsageTableControls[0, 0] = averageCpuUsage_Label;
+                    _CpuUsageTableControls[1, 0] = averageCpuUsage_ProgressBar;
+                    _CpuUsageTableControls[2, 0] = averageCpuFreq_Label;
+
+
                     for (int i = 0; i < numthreads; i++)
                     {                  
                         var rowstyle = new RowStyle(SizeType.Absolute, 20);
@@ -38,9 +53,18 @@ namespace MCServerManager2
                         {
                             cpuLoad_TableLayoutPanel.RowCount += 1;
                             cpuLoad_TableLayoutPanel.RowStyles.Add(rowstyle);
-                            cpuLoad_TableLayoutPanel.Controls.Add(new Label() { Text = "" + i, AutoSize = true });
-                            cpuLoad_TableLayoutPanel.Controls.Add(new ProgressBar() { Dock = DockStyle.Fill });
-                            cpuLoad_TableLayoutPanel.Controls.Add(new Label() { Text = "? MHz", AutoSize = true });
+
+                            var threadNumLbl = new Label { Text = "" + i, AutoSize = true };
+                            var usageProgBar = new ProgressBar { Dock = DockStyle.Fill };
+                            var freqLbl = new Label { Text = "? MHz", AutoSize = true };
+
+                            _CpuUsageTableControls[0, i+1] = threadNumLbl;
+                            _CpuUsageTableControls[1, i+1] = usageProgBar;
+                            _CpuUsageTableControls[2, i+1] = freqLbl;
+
+                            cpuLoad_TableLayoutPanel.Controls.Add(threadNumLbl);
+                            cpuLoad_TableLayoutPanel.Controls.Add(usageProgBar);
+                            cpuLoad_TableLayoutPanel.Controls.Add(freqLbl);
                         }));
                     }
                     this.Invoke((MethodInvoker)(() =>
@@ -89,28 +113,28 @@ namespace MCServerManager2
                 for (int i = 0; i < host.Statistics[0].CpuLoad.Length; i++)
                 {
                     var b = host.Statistics[0].CpuLoad[i];
-                    var usedPercent = (b.Usr + b.Nice + b.Sys + b.IOWait + b.IRQ + b.Soft + b.Steal + b.Guest + b.GNice);
-                    this.Invoke((MethodInvoker)(() => ((ProgressBar)cpuLoad_TableLayoutPanel.GetControlFromPosition(1, i + 1)).Value = (int)usedPercent));
+                    var usedPercent = (int)(b.Usr + b.Nice + b.Sys + b.IOWait + b.IRQ + b.Soft + b.Steal + b.Guest + b.GNice);
+                    this.Invoke((MethodInvoker)(() => ((ProgressBar)_CpuUsageTableControls[1, i]).Value = usedPercent));
                 }
 
                 var cmdresult_freq = ManagerHandler.SshHandler.GetCpuFrequencies().ToArray();
                 var avg = (int)cmdresult_freq.Average();
                 var max = (int)cmdresult_freq.Max();
                 var min = (int)cmdresult_freq.Min();
-                this.Invoke((MethodInvoker)(() => ((Label)cpuLoad_TableLayoutPanel.GetControlFromPosition(2, 1)).Text = avg + " MHz"));
+                this.Invoke((MethodInvoker)(() => ((Label)_CpuUsageTableControls[2, 0]).Text = avg + " MHz"));
                 for (int i = 0; i < cmdresult_freq.Length; i++)
                 {
                     var num = (int)cmdresult_freq[i];
 
-                    this.Invoke((MethodInvoker)(() => {
-                        var lbl = (Label)cpuLoad_TableLayoutPanel.GetControlFromPosition(2, i + 2);
+                    this.Invoke((MethodInvoker)(() =>
+                    {
+                        var lbl = (Label)_CpuUsageTableControls[2, i + 1];
                         lbl.Text = num + " MHz";
                         if (num == max) lbl.ForeColor = Color.Red;
                         else if (num == min) lbl.ForeColor = Color.Blue;
-                        else if (lbl.ForeColor != Color.Black) lbl.ForeColor = Color.Black;
+                        else if (lbl.ForeColor != Color.Black) lbl.ForeColor = SystemColors.ControlText;
                     }));
                 }
-
             }
         }
 

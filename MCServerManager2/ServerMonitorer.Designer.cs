@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.cpuLoad_TableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.averageCpuUsage_ProgressBar = new System.Windows.Forms.ProgressBar();
             this.label100 = new System.Windows.Forms.Label();
             this.label98 = new System.Windows.Forms.Label();
-            this.label116 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.averageCpuUsage_Label = new System.Windows.Forms.Label();
+            this.averageCpuFreq_Label = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.externalIP_Label = new System.Windows.Forms.Label();
@@ -72,11 +72,11 @@
             this.cpuLoad_TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.cpuLoad_TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.cpuLoad_TableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.cpuLoad_TableLayoutPanel.Controls.Add(this.progressBar1, 1, 1);
+            this.cpuLoad_TableLayoutPanel.Controls.Add(this.averageCpuUsage_ProgressBar, 1, 1);
             this.cpuLoad_TableLayoutPanel.Controls.Add(this.label100, 1, 0);
             this.cpuLoad_TableLayoutPanel.Controls.Add(this.label98, 0, 0);
-            this.cpuLoad_TableLayoutPanel.Controls.Add(this.label116, 0, 1);
-            this.cpuLoad_TableLayoutPanel.Controls.Add(this.label3, 2, 1);
+            this.cpuLoad_TableLayoutPanel.Controls.Add(this.averageCpuUsage_Label, 0, 1);
+            this.cpuLoad_TableLayoutPanel.Controls.Add(this.averageCpuFreq_Label, 2, 1);
             this.cpuLoad_TableLayoutPanel.Controls.Add(this.label4, 2, 0);
             this.cpuLoad_TableLayoutPanel.Location = new System.Drawing.Point(246, 3);
             this.cpuLoad_TableLayoutPanel.Name = "cpuLoad_TableLayoutPanel";
@@ -86,13 +86,13 @@
             this.cpuLoad_TableLayoutPanel.Size = new System.Drawing.Size(272, 449);
             this.cpuLoad_TableLayoutPanel.TabIndex = 7;
             // 
-            // progressBar1
+            // averageCpuUsage_ProgressBar
             // 
-            this.progressBar1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.progressBar1.Location = new System.Drawing.Point(38, 23);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(168, 423);
-            this.progressBar1.TabIndex = 36;
+            this.averageCpuUsage_ProgressBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.averageCpuUsage_ProgressBar.Location = new System.Drawing.Point(38, 23);
+            this.averageCpuUsage_ProgressBar.Name = "averageCpuUsage_ProgressBar";
+            this.averageCpuUsage_ProgressBar.Size = new System.Drawing.Size(168, 423);
+            this.averageCpuUsage_ProgressBar.TabIndex = 36;
             // 
             // label100
             // 
@@ -112,23 +112,23 @@
             this.label98.TabIndex = 17;
             this.label98.Text = "CPU";
             // 
-            // label116
+            // averageCpuUsage_Label
             // 
-            this.label116.AutoSize = true;
-            this.label116.Location = new System.Drawing.Point(3, 20);
-            this.label116.Name = "label116";
-            this.label116.Size = new System.Drawing.Size(18, 13);
-            this.label116.TabIndex = 35;
-            this.label116.Text = "All";
+            this.averageCpuUsage_Label.AutoSize = true;
+            this.averageCpuUsage_Label.Location = new System.Drawing.Point(3, 20);
+            this.averageCpuUsage_Label.Name = "averageCpuUsage_Label";
+            this.averageCpuUsage_Label.Size = new System.Drawing.Size(18, 13);
+            this.averageCpuUsage_Label.TabIndex = 35;
+            this.averageCpuUsage_Label.Text = "All";
             // 
-            // label3
+            // averageCpuFreq_Label
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(212, 20);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(38, 13);
-            this.label3.TabIndex = 37;
-            this.label3.Text = "? MHz";
+            this.averageCpuFreq_Label.AutoSize = true;
+            this.averageCpuFreq_Label.Location = new System.Drawing.Point(212, 20);
+            this.averageCpuFreq_Label.Name = "averageCpuFreq_Label";
+            this.averageCpuFreq_Label.Size = new System.Drawing.Size(38, 13);
+            this.averageCpuFreq_Label.TabIndex = 37;
+            this.averageCpuFreq_Label.Text = "? MHz";
             // 
             // label4
             // 
@@ -436,10 +436,10 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel cpuLoad_TableLayoutPanel;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ProgressBar averageCpuUsage_ProgressBar;
         private System.Windows.Forms.Label label100;
         private System.Windows.Forms.Label label98;
-        private System.Windows.Forms.Label label116;
+        private System.Windows.Forms.Label averageCpuUsage_Label;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label txthostName_Label;
         private System.Windows.Forms.Label txtos_Label;
@@ -462,7 +462,7 @@
         private System.Windows.Forms.ComboBox topSortBy_ComboBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown topLines_NumericUpDown;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label averageCpuFreq_Label;
         private System.Windows.Forms.Label label4;
     }
 }
