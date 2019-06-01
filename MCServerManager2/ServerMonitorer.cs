@@ -28,6 +28,7 @@ namespace MCServerManager2
         /// Don't use GetControlFromPosition, Mono likes to return null
         /// </summary>
         private Control[,] _CpuUsageTableControls;
+
         private void PopulateCpuUsageTable()
         {
             CommandResultTuple cmdresult = null;
@@ -194,6 +195,16 @@ namespace MCServerManager2
         private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void ServerMonitorer_ResizeBegin(object sender, EventArgs e)
+        {
+            this.SuspendLayout();
+        }
+
+        private void ServerMonitorer_ResizeEnd(object sender, EventArgs e)
+        {
+            this.ResumeLayout();
         }
     }
 }

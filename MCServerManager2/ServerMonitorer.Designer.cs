@@ -418,6 +418,8 @@
             this.Name = "ServerMonitorer";
             this.Text = "ServerMonitorer";
             this.Load += new System.EventHandler(this.ServerMonitorer_Load);
+            this.ResizeBegin += new System.EventHandler(this.ServerMonitorer_ResizeBegin);
+            this.ResizeEnd += new System.EventHandler(this.ServerMonitorer_ResizeEnd);
             this.cpuLoad_TableLayoutPanel.ResumeLayout(false);
             this.cpuLoad_TableLayoutPanel.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
