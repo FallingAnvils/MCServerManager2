@@ -421,5 +421,15 @@ namespace MCServerManager2
                 Process.Start(loc);
             }
         }
+
+        private void MainForm_ResizeBegin(object sender, EventArgs e)
+        {
+            this.SuspendLayout();
+        }
+
+        private void MainForm_ResizeEnd(object sender, EventArgs e)
+        {
+            this.ResumeLayout();
+        }
     }
 }
