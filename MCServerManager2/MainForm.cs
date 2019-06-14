@@ -227,21 +227,7 @@ namespace MCServerManager2
                 {
                     case "Modded":
                         creator.ServerType = ServerType.Modded;
-                        creator.Order = new[] {
-                            CreatorTab.Start,
-                            CreatorTab.DownloadLink,
-                            CreatorTab.InstanceName,
-                            CreatorTab.RAM,
-                            CreatorTab.Port,
-                            CreatorTab.Difficulty,
-                            CreatorTab.LevelName,
-                            CreatorTab.LevelType,
-                            CreatorTab.Whitelisted,
-                            CreatorTab.Whitelist,
-                            CreatorTab.Ops,
-                            CreatorTab.OnlineMode,
-                            CreatorTab.CommandBlocks,
-                            CreatorTab.BungeeCord };
+                        creator.Order = CreatorTabOrder.Modded;
                         creator.ShowDialog();
 
                         var tupm = creator.ResultValues;
@@ -251,21 +237,7 @@ namespace MCServerManager2
                         break;
                     case "Spigot":
                         creator.ServerType = ServerType.Bukkit;
-                        creator.Order = new[] {
-                            CreatorTab.Start,
-                            CreatorTab.DownloadLink,
-                            CreatorTab.InstanceName,
-                            CreatorTab.RAM,
-                            CreatorTab.Port,
-                            CreatorTab.Difficulty,
-                            CreatorTab.LevelName,
-                            CreatorTab.LevelType,
-                            CreatorTab.Whitelisted,
-                            CreatorTab.Whitelist,
-                            CreatorTab.Ops,
-                            CreatorTab.OnlineMode,
-                            CreatorTab.CommandBlocks,
-                            CreatorTab.BungeeCord };
+                        creator.Order = CreatorTabOrder.Spigot;
                         creator.ShowDialog();
 
                         var tups = creator.ResultValues;
@@ -274,17 +246,7 @@ namespace MCServerManager2
                         break;
                     case "Bedrock":
                         creator.ServerType = ServerType.Bedrock;
-                        creator.Order = new[] {
-                            CreatorTab.DownloadLink,
-                            CreatorTab.InstanceName,
-                            CreatorTab.Port,
-                            CreatorTab.Difficulty,
-                            CreatorTab.LevelName,
-                            CreatorTab.Whitelisted,
-                            CreatorTab.Whitelist,
-                            CreatorTab.OnlineMode,
-                            CreatorTab.CommandBlocks
-                        };
+                        creator.Order = CreatorTabOrder.Bedrock;
                         creator.ShowDialog();
 
                         var tupb = creator.ResultValues;
