@@ -98,4 +98,54 @@ namespace MCServerManager2
         CommandBlocks = 12,
         BungeeCord = 13
     }
+
+    public static class CreatorTabOrder
+    {
+        public static CreatorTab[] Modded = new[] {
+                            CreatorTab.Start,
+                            CreatorTab.DownloadLink,
+                            CreatorTab.InstanceName,
+                            CreatorTab.RAM,
+                            CreatorTab.Port,
+                            CreatorTab.Difficulty,
+                            CreatorTab.LevelName,
+                            CreatorTab.LevelType,
+                            CreatorTab.Whitelisted,
+                            CreatorTab.Whitelist,
+                            CreatorTab.Ops,
+                            CreatorTab.OnlineMode,
+                            CreatorTab.CommandBlocks,
+                            CreatorTab.BungeeCord
+        };
+
+        public static CreatorTab[] Spigot = new[] {
+                            CreatorTab.Start,
+                            CreatorTab.DownloadLink,
+                            CreatorTab.InstanceName,
+                            CreatorTab.RAM,
+                            CreatorTab.Port,
+                            CreatorTab.Difficulty,
+                            CreatorTab.LevelName,
+                            CreatorTab.LevelType,
+                            CreatorTab.Whitelisted,
+                            CreatorTab.Whitelist,
+                            CreatorTab.Ops,
+                            CreatorTab.OnlineMode,
+                            CreatorTab.CommandBlocks,
+                            CreatorTab.BungeeCord
+        };
+
+        public static CreatorTab[] Bedrock = new[] {
+                            CreatorTab.DownloadLink,
+                            CreatorTab.InstanceName,
+                            CreatorTab.Port,
+                            CreatorTab.Difficulty,
+                            CreatorTab.LevelName,
+                            CreatorTab.Whitelisted,
+                            CreatorTab.Whitelist,
+                            CreatorTab.OnlineMode,
+                            CreatorTab.CommandBlocks
+        };
+
+    }
 }
