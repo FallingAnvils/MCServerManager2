@@ -50,6 +50,7 @@ namespace MCServerManager2
 
         private void editFile_Button_Click(object sender, EventArgs e)
         {
+            // is the selected node a file?
             if(ManagerHandler.SshHandler.RunCommand("test -f " + fileList_TreeView.SelectedNode.FullPath.Quotate()).ExitCode == 0)
             {
                 var file = fileList_TreeView.SelectedNode.FullPath;

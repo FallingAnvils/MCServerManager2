@@ -93,7 +93,11 @@ namespace MCServerManager2
                 {
                     mcServerPath_TextBox.Text = handler.SshHandler.RealPath(mcServerPath_TextBox.Text);
                     RefreshViews();
-                    if(cfg.ExpandAllOnStart) idleInstances_TreeView.ExpandAllExcept(x => x.EndsWith("launch.sh"));
+                    if (cfg.ExpandAllOnStart)
+                    {
+                        idleInstances_TreeView.ExpandAllExcept(x => x.EndsWith("launch.sh"));
+                        runningInstances_TreeView.ExpandAllExcept(x => x.EndsWith("launch.sh"));
+                    }
                 }
             });           
         }
@@ -152,7 +156,13 @@ namespace MCServerManager2
                 var nodes = TreeViewHandler.GetAllChildren(node);
                 var scriptpaths = nodes.Where(x => x.FullPath.EndsWith("launch.sh")).Select(x => x.FullPath);
                 Pause();
-                handler.StopInstances(scriptpaths).ContinueWith(x => this.Invoke((MethodInvoker)(() => RefreshViews(null, node.Nodes.GetExpansionState()))));
+                handler.StopInstances(scriptpaths).ContinueWith(x => this.Invoke((MethodInvoker)(() => 
+                {
+                    var expanded = node.Nodes.GetExpansionState();
+                    if (node.Parent.IsExpanded) expanded.Add(node.Parent.FullPath);
+                    if (node.IsExpanded) expanded.Add(node.FullPath);
+                    RefreshViews(null, expanded);
+                })));
             }
             else
             {
@@ -268,12 +278,12 @@ namespace MCServerManager2
                 switch(modifyTypeChooser.SelectionBox.SelectedItem)
                 {
                     case "Modify":
-                        if (idleInstances_TreeView.SelectedNode != null)
+                        if (GetAnySelectedNode() != null)
                         {
                             var modifier = new InstanceModifier();
                             modifier.Editor = Editor;
                             modifier.ManagerHandler = handler;
-                            modifier.FullDirPath = idleInstances_TreeView.SelectedNode.FullPath;
+                            modifier.FullDirPath = GetAnySelectedNode().FullPath;
                             modifier.Show();
                         }
                         else
@@ -282,15 +292,15 @@ namespace MCServerManager2
                         }
                         break;
                     case "Update":
-                        if (idleInstances_TreeView.SelectedNode != null)
+                        if (GetAnySelectedNode() != null)
                         {
-                            var children = idleInstances_TreeView.SelectedNode.Nodes;
+                            var children = GetAnySelectedNode().Nodes;
                             bool isInstance = false;
                             foreach (TreeNode child in children)
                                 if (child.Text.Equals("launch.sh")) isInstance = true;
                             if(isInstance)
                             {
-                                var instpath = idleInstances_TreeView.SelectedNode.FullPath;
+                                var instpath = GetAnySelectedNode().FullPath;
                                 var wizard = new InstanceCreationWizard();
                                 wizard.Order = new[] { CreatorTab.Start, CreatorTab.DownloadLink };
                                 wizard.instanceName_TextBox.Text = instpath.Substring(MiscTools.CommonStartsWith(instpath, mcServerPath_TextBox.Text).Length);
@@ -376,7 +386,7 @@ namespace MCServerManager2
         private void openFolder_Button_Click(object sender, EventArgs e)
         {
             TreeNode node;
-            if((node = idleInstances_TreeView.SelectedNode) != null)
+            if((node = GetAnySelectedNode()) != null)
             {
                 var selected = node.FullPath;
                 var loc = mountPoint_TextBox.Text + selected.Substring(MiscTools.CommonStartsWith(selected, remoteLocation_TextBox.Text).Length).Replace('/', Path.DirectorySeparatorChar);
@@ -392,6 +402,27 @@ namespace MCServerManager2
         private void MainForm_ResizeEnd(object sender, EventArgs e)
         {
             this.ResumeLayout();
+        }
+
+        private TreeNode GetAnySelectedNode()
+        {
+            return idleInstances_TreeView.SelectedNode != null ? idleInstances_TreeView.SelectedNode : runningInstances_TreeView.SelectedNode != null ? runningInstances_TreeView.SelectedNode : null;
+        }
+
+        private void runningInstances_TreeView_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        {
+            if(idleInstances_TreeView.SelectedNode != null)
+            {
+                idleInstances_TreeView.SelectedNode = null;
+            }
+        }
+
+        private void idleInstances_TreeView_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        {
+            if (runningInstances_TreeView.SelectedNode != null)
+            {
+                runningInstances_TreeView.SelectedNode = null;
+            }
         }
     }
 }

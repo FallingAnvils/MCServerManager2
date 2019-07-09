@@ -80,6 +80,7 @@
             this.runningInstances_TreeView.PathSeparator = "/";
             this.runningInstances_TreeView.Size = new System.Drawing.Size(359, 420);
             this.runningInstances_TreeView.TabIndex = 0;
+            this.runningInstances_TreeView.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.runningInstances_TreeView_BeforeSelect);
             // 
             // idleInstances_TreeView
             // 
@@ -90,6 +91,7 @@
             this.idleInstances_TreeView.PathSeparator = "/";
             this.idleInstances_TreeView.Size = new System.Drawing.Size(359, 420);
             this.idleInstances_TreeView.TabIndex = 1;
+            this.idleInstances_TreeView.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.idleInstances_TreeView_BeforeSelect);
             // 
             // open_Button
             // 
