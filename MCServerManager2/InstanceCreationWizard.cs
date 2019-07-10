@@ -46,7 +46,7 @@ namespace MCServerManager2
                 {
                     bungeeargsobj = new BCArgsObject();
                     bungeeargsobj.Version = mcVersion_TextBox.Text;
-                    bungeeargsobj.BungeeName = instanceName_TextBox.Text.Split('/').Last();
+                    bungeeargsobj.BungeeName = instanceName_TextBox.Text.Split('/').Last().Replace(' ', '_');
                     bungeeargsobj.BungeePath = BasePath.BetterPathJoinSlash(bungeeCordPath_TextBox.Text);
                     switch(ServerType) {
                         case ServerType.Bukkit:

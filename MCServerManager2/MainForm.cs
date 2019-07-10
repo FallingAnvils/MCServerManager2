@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using Renci.SshNet;
@@ -233,7 +234,7 @@ namespace MCServerManager2
             {
                 var creator = new InstanceCreationWizard();
                 creator.BasePath = mcServerPath_TextBox.Text;
-                switch(installTypeChooser.SelectionBox.SelectedItem)
+                switch (installTypeChooser.SelectionBox.SelectedItem)
                 {
                     case "Modded":
                         creator.ServerType = ServerType.Modded;
@@ -360,16 +361,60 @@ namespace MCServerManager2
 
         private void deleteInstances_Button_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Do you REALLY want to delete this PERMANENTLY?", "Are you sure?", MessageBoxButtons.OKCancel) == DialogResult.OK)
-            {
-                if (MessageBox.Show("Do you REALLY REALLY want to delete this PERMANENTLY?", "Are you REALLY sure?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            var toRemove = idleInstances_TreeView.SelectedNode.FullPath;
+            if (MessageBox.Show(this, "Are you using BungeeCord? If using it, you must select the INSTANCE, not a containing folder", "BungeeCord",MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
+            {   
+
+                var bungeeLocation = mcServerPath_TextBox.Text.BetterPathJoinSlash(TextPrompt.Prompt("Type the BungeeCord instance location", "BungeeCord", false, false));
+
+                var configpath = bungeeLocation.BetterPathJoinSlash("config.yml");
+
+                if (handler.SftpHandler._Client.Exists(configpath))
                 {
-                    if (MessageBox.Show("It's PERMANENT. Do you REALLY want to do this?", "ARE YOU REALLY SURE?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                    List<string> file = new List<string>(handler.SftpHandler._Client.ReadAllLines(configpath));
+
+                    var shortname = toRemove.Split('/').Last().Replace(' ', '_');
+                    var instanceIndex = file.IndexOf("  " + shortname + ":");
+
+                    if(instanceIndex < 0)
                     {
-                        if (MessageBox.Show("By clicking OK, the instance tree will be PERMANENTLY DELETED. THIS IS YOUR LAST CHANCE TO CLICK CANCEL.", "THIS IS YOUR LAST CHANCE!", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                        MessageBox.Show("Instance wasn't found in BungeeCord config!");
+                    }
+                    else
+                    {
+                        var instanceDefinitionLength = 4;
+                        for (int i = 0; i < instanceDefinitionLength; i++)
                         {
-                            handler.SshHandler.RunCommand("rm -rf " + idleInstances_TreeView.SelectedNode.FullPath);
-                            RefreshViews();
+                            file.RemoveAt(instanceIndex);
+                        }
+
+                        // because sftp writealllines doesn't overwrite the entire file
+                        handler.SftpHandler._Client.DeleteFile(configpath);
+
+                        handler.SftpHandler._Client.WriteAllLines(configpath, file);
+
+                        handler.SshHandler.RunCommand("rm -rf " + toRemove);
+                        RefreshViews();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("It's not a BungeeCord instance or there's no config.yml");
+                }
+            }
+            else
+            {
+                if (MessageBox.Show("Do you REALLY want to delete this PERMANENTLY?", "Are you sure?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    if (MessageBox.Show("Do you REALLY REALLY want to delete this PERMANENTLY?", "Are you REALLY sure?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                    {
+                        if (MessageBox.Show("It's PERMANENT. Do you REALLY want to do this?", "ARE YOU REALLY SURE?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                        {
+                            if (MessageBox.Show("By clicking OK, the instance tree will be PERMANENTLY DELETED. THIS IS YOUR LAST CHANCE TO CLICK CANCEL.", "THIS IS YOUR LAST CHANCE!", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                            {
+                                handler.SshHandler.RunCommand("rm -rf " + toRemove);
+                                RefreshViews();
+                            }
                         }
                     }
                 }

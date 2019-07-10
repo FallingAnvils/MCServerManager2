@@ -86,7 +86,8 @@ namespace MCServerManager2
                 if (usageCmdResult.ExitCode == 0)
                 {
                     var result = JsonConvert.DeserializeObject<MPStatResult>(usageCmdResult.StdOut);
-                    var localip = ManagerHandler.SshHandler.RunCommandSafe("hostname -I | sed 's/ /\\n/' | head -n 1").StdOut;
+                    // hostname --I | sed 's/ /\\n/' | head -n 1
+                    var localip = ManagerHandler.SshHandler.RunCommandSafe("hostname --ip-address | head -n 1").StdOut;
                     var extip = ManagerHandler.SshHandler.RunCommandSafe("curl ipinfo.io/ip").StdOut;
 
                     var host = result.SysStat.Hosts[0];
