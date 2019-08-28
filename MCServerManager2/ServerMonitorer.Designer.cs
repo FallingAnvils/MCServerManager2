@@ -279,12 +279,15 @@
             // 
             // sensors_TextBox
             // 
+            this.sensors_TextBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sensors_TextBox.Location = new System.Drawing.Point(3, 3);
             this.sensors_TextBox.Multiline = true;
             this.sensors_TextBox.Name = "sensors_TextBox";
             this.sensors_TextBox.ReadOnly = true;
+            this.sensors_TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.sensors_TextBox.Size = new System.Drawing.Size(237, 446);
             this.sensors_TextBox.TabIndex = 9;
+            this.sensors_TextBox.WordWrap = false;
             // 
             // flowLayoutPanel1
             // 

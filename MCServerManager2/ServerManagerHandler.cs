@@ -130,7 +130,7 @@ namespace MCServerManager2
         public Process CreateInstance(ArgsObject aobj)
         {
             var json = JsonConvert.SerializeObject(aobj).Replace("\"", "\\\"");
-            var cmd = ("cd " + aobj.InstancesPath).CombineCommand("mono mcmpgen.exe " + json.Quotate());
+            var cmd = ("cd " + aobj.InstancesPath).CombineCommand($"mono {MainForm.ModpackDownloaderExeName} " + json.Quotate());
             Console.WriteLine(cmd);
             return PuttyOpener.OpenPutty(cmd);
         }
@@ -138,7 +138,7 @@ namespace MCServerManager2
         public Process BungeeifyInstance(BCArgsObject baobj, string basePath)
         {
             var json = JsonConvert.SerializeObject(baobj).Replace("\"", "\\\"");
-            var cmd = ("cd " + basePath).CombineCommand("mono bungeecordhandler.exe " + json.Quotate());
+            var cmd = ("cd " + basePath).CombineCommand($"mono {MainForm.BungeeCordHandlerExeName} " + json.Quotate());
             Console.WriteLine(cmd);
             return PuttyOpener.OpenPutty(cmd);
         }

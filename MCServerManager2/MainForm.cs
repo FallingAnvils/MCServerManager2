@@ -13,6 +13,9 @@ namespace MCServerManager2
 {
     public partial class MainForm : Form
     {
+        public static string ModpackDownloaderExeName = "mcmpgen.exe";
+        public static string BungeeCordHandlerExeName = "bungeecordhandler.exe";
+
         ServerManagerHandler handler;
         public MainForm()
         {
@@ -69,6 +72,13 @@ namespace MCServerManager2
             {
                 cfg.Password = TextPrompt.Prompt("Enter the password", "Password", true, true);
             }
+
+            if (!cfg.ModpackDownloaderExeName.IsNullOrWhiteSpace())
+                ModpackDownloaderExeName = cfg.ModpackDownloaderExeName;
+
+            if (!cfg.BungeeCordHandlerExeName.IsNullOrWhiteSpace())
+                BungeeCordHandlerExeName = cfg.BungeeCordHandlerExeName;
+
 
             mountPoint_TextBox.Text = cfg.MountPoint;
             remoteLocation_TextBox.Text = cfg.RemoteLocation;
@@ -156,13 +166,14 @@ namespace MCServerManager2
             {
                 var nodes = TreeViewHandler.GetAllChildren(node);
                 var scriptpaths = nodes.Where(x => x.FullPath.EndsWith("launch.sh")).Select(x => x.FullPath);
-                Pause();
+                ((Button)sender).Enabled = false;
                 handler.StopInstances(scriptpaths).ContinueWith(x => this.Invoke((MethodInvoker)(() => 
                 {
                     var expanded = node.Nodes.GetExpansionState();
                     if (node.Parent.IsExpanded) expanded.Add(node.Parent.FullPath);
                     if (node.IsExpanded) expanded.Add(node.FullPath);
                     RefreshViews(null, expanded);
+                    ((Button)sender).Enabled = true;
                 })));
             }
             else
@@ -361,63 +372,70 @@ namespace MCServerManager2
 
         private void deleteInstances_Button_Click(object sender, EventArgs e)
         {
-            var toRemove = idleInstances_TreeView.SelectedNode.FullPath;
-            if (MessageBox.Show(this, "Are you using BungeeCord? If using it, you must select the INSTANCE, not a containing folder", "BungeeCord",MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
-            {   
-
-                var bungeeLocation = mcServerPath_TextBox.Text.BetterPathJoinSlash(TextPrompt.Prompt("Type the BungeeCord instance location", "BungeeCord", false, false));
-
-                var configpath = bungeeLocation.BetterPathJoinSlash("config.yml");
-
-                if (handler.SftpHandler._Client.Exists(configpath))
+            if(idleInstances_TreeView.SelectedNode != null)
+            {
+                var toRemove = idleInstances_TreeView.SelectedNode.FullPath;
+                if (MessageBox.Show(this, "Are you using BungeeCord? If using it, you must select the INSTANCE, not a containing folder", "BungeeCord", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                 {
-                    List<string> file = new List<string>(handler.SftpHandler._Client.ReadAllLines(configpath));
 
-                    var shortname = toRemove.Split('/').Last().Replace(' ', '_');
-                    var instanceIndex = file.IndexOf("  " + shortname + ":");
+                    var bungeeLocation = mcServerPath_TextBox.Text.BetterPathJoinSlash(TextPrompt.Prompt("Type the BungeeCord instance location", "BungeeCord", false, false));
 
-                    if(instanceIndex < 0)
+                    var configpath = bungeeLocation.BetterPathJoinSlash("config.yml");
+
+                    if (handler.SftpHandler._Client.Exists(configpath))
                     {
-                        MessageBox.Show("Instance wasn't found in BungeeCord config!");
+                        List<string> file = new List<string>(handler.SftpHandler._Client.ReadAllLines(configpath));
+
+                        var shortname = toRemove.Split('/').Last().Replace(' ', '_');
+                        var instanceIndex = file.IndexOf("  " + shortname + ":");
+
+                        if (instanceIndex < 0)
+                        {
+                            MessageBox.Show("Instance wasn't found in BungeeCord config!");
+                        }
+                        else
+                        {
+                            var instanceDefinitionLength = 4;
+                            for (int i = 0; i < instanceDefinitionLength; i++)
+                            {
+                                file.RemoveAt(instanceIndex);
+                            }
+
+                            // because sftp writealllines doesn't overwrite the entire file
+                            handler.SftpHandler._Client.DeleteFile(configpath);
+
+                            handler.SftpHandler._Client.WriteAllLines(configpath, file);
+
+                            handler.SshHandler.RunCommand("rm -rf " + toRemove);
+                            RefreshViews();
+                        }
                     }
                     else
                     {
-                        var instanceDefinitionLength = 4;
-                        for (int i = 0; i < instanceDefinitionLength; i++)
-                        {
-                            file.RemoveAt(instanceIndex);
-                        }
-
-                        // because sftp writealllines doesn't overwrite the entire file
-                        handler.SftpHandler._Client.DeleteFile(configpath);
-
-                        handler.SftpHandler._Client.WriteAllLines(configpath, file);
-
-                        handler.SshHandler.RunCommand("rm -rf " + toRemove);
-                        RefreshViews();
+                        MessageBox.Show("It's not a BungeeCord instance or there's no config.yml");
                     }
                 }
                 else
                 {
-                    MessageBox.Show("It's not a BungeeCord instance or there's no config.yml");
-                }
-            }
-            else
-            {
-                if (MessageBox.Show("Do you REALLY want to delete this PERMANENTLY?", "Are you sure?", MessageBoxButtons.OKCancel) == DialogResult.OK)
-                {
-                    if (MessageBox.Show("Do you REALLY REALLY want to delete this PERMANENTLY?", "Are you REALLY sure?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                    if (MessageBox.Show("Do you REALLY want to delete this PERMANENTLY?", "Are you sure?", MessageBoxButtons.OKCancel) == DialogResult.OK)
                     {
-                        if (MessageBox.Show("It's PERMANENT. Do you REALLY want to do this?", "ARE YOU REALLY SURE?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                        if (MessageBox.Show("Do you REALLY REALLY want to delete this PERMANENTLY?", "Are you REALLY sure?", MessageBoxButtons.OKCancel) == DialogResult.OK)
                         {
-                            if (MessageBox.Show("By clicking OK, the instance tree will be PERMANENTLY DELETED. THIS IS YOUR LAST CHANCE TO CLICK CANCEL.", "THIS IS YOUR LAST CHANCE!", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                            if (MessageBox.Show("It's PERMANENT. Do you REALLY want to do this?", "ARE YOU REALLY SURE?", MessageBoxButtons.OKCancel) == DialogResult.OK)
                             {
-                                handler.SshHandler.RunCommand("rm -rf " + toRemove);
-                                RefreshViews();
+                                if (MessageBox.Show("By clicking OK, the instance tree will be PERMANENTLY DELETED. THIS IS YOUR LAST CHANCE TO CLICK CANCEL.", "THIS IS YOUR LAST CHANCE!", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                                {
+                                    handler.SshHandler.RunCommand("rm -rf " + toRemove);
+                                    RefreshViews();
+                                }
                             }
                         }
                     }
                 }
+            }
+            else
+            {
+                MessageBox.Show("Select a directory in the idle instances.");
             }
         }
 
