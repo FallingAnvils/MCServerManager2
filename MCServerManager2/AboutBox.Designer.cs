@@ -62,9 +62,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 49);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(101, 13);
+            this.label1.Size = new System.Drawing.Size(111, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Built using .NET 4.0";
+            this.label1.Text = "\"Built\" using .NET 4.0";
             // 
             // label2
             // 
@@ -96,11 +96,12 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(142, 49);
+            this.label5.Location = new System.Drawing.Point(12, 182);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(230, 13);
+            this.label5.Size = new System.Drawing.Size(250, 52);
             this.label5.TabIndex = 6;
-            this.label5.Text = "<- That means it\'s compatible with Windows XP";
+            this.label5.Text = "yeah yeah I know I should use a newer .net version\r\nthis is so it supports window" +
+    "s xp\r\nwhy does it support windows xp?\r\nbecause I felt like it";
             // 
             // AboutBox
             // 

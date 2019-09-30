@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using Renci.SshNet;
@@ -12,6 +13,9 @@ namespace MCServerManager2
 {
     public partial class MainForm : Form
     {
+        public static string ModpackDownloaderExeName = "mcmpgen.exe";
+        public static string BungeeCordHandlerExeName = "bungeecordhandler.exe";
+
         ServerManagerHandler handler;
         public MainForm()
         {
@@ -69,6 +73,13 @@ namespace MCServerManager2
                 cfg.Password = TextPrompt.Prompt("Enter the password", "Password", true, true);
             }
 
+            if (!cfg.ModpackDownloaderExeName.IsNullOrWhiteSpace())
+                ModpackDownloaderExeName = cfg.ModpackDownloaderExeName;
+
+            if (!cfg.BungeeCordHandlerExeName.IsNullOrWhiteSpace())
+                BungeeCordHandlerExeName = cfg.BungeeCordHandlerExeName;
+
+
             mountPoint_TextBox.Text = cfg.MountPoint;
             remoteLocation_TextBox.Text = cfg.RemoteLocation;
 
@@ -93,7 +104,11 @@ namespace MCServerManager2
                 {
                     mcServerPath_TextBox.Text = handler.SshHandler.RealPath(mcServerPath_TextBox.Text);
                     RefreshViews();
-                    if(cfg.ExpandAllOnStart) idleInstances_TreeView.ExpandAllExcept(x => x.EndsWith("launch.sh"));
+                    if (cfg.ExpandAllOnStart)
+                    {
+                        idleInstances_TreeView.ExpandAllExcept(x => x.EndsWith("launch.sh"));
+                        runningInstances_TreeView.ExpandAllExcept(x => x.EndsWith("launch.sh"));
+                    }
                 }
             });           
         }
@@ -151,8 +166,15 @@ namespace MCServerManager2
             {
                 var nodes = TreeViewHandler.GetAllChildren(node);
                 var scriptpaths = nodes.Where(x => x.FullPath.EndsWith("launch.sh")).Select(x => x.FullPath);
-                Pause();
-                handler.StopInstances(scriptpaths).ContinueWith(x => this.Invoke((MethodInvoker)(() => RefreshViews(null, node.Nodes.GetExpansionState()))));
+                ((Button)sender).Enabled = false;
+                handler.StopInstances(scriptpaths).ContinueWith(x => this.Invoke((MethodInvoker)(() => 
+                {
+                    var expanded = node.Nodes.GetExpansionState();
+                    if (node.Parent.IsExpanded) expanded.Add(node.Parent.FullPath);
+                    if (node.IsExpanded) expanded.Add(node.FullPath);
+                    RefreshViews(null, expanded);
+                    ((Button)sender).Enabled = true;
+                })));
             }
             else
             {
@@ -223,7 +245,7 @@ namespace MCServerManager2
             {
                 var creator = new InstanceCreationWizard();
                 creator.BasePath = mcServerPath_TextBox.Text;
-                switch(installTypeChooser.SelectionBox.SelectedItem)
+                switch (installTypeChooser.SelectionBox.SelectedItem)
                 {
                     case "Modded":
                         creator.ServerType = ServerType.Modded;
@@ -268,12 +290,12 @@ namespace MCServerManager2
                 switch(modifyTypeChooser.SelectionBox.SelectedItem)
                 {
                     case "Modify":
-                        if (idleInstances_TreeView.SelectedNode != null)
+                        if (GetAnySelectedNode() != null)
                         {
                             var modifier = new InstanceModifier();
                             modifier.Editor = Editor;
                             modifier.ManagerHandler = handler;
-                            modifier.FullDirPath = idleInstances_TreeView.SelectedNode.FullPath;
+                            modifier.FullDirPath = GetAnySelectedNode().FullPath;
                             modifier.Show();
                         }
                         else
@@ -282,15 +304,15 @@ namespace MCServerManager2
                         }
                         break;
                     case "Update":
-                        if (idleInstances_TreeView.SelectedNode != null)
+                        if (GetAnySelectedNode() != null)
                         {
-                            var children = idleInstances_TreeView.SelectedNode.Nodes;
+                            var children = GetAnySelectedNode().Nodes;
                             bool isInstance = false;
                             foreach (TreeNode child in children)
                                 if (child.Text.Equals("launch.sh")) isInstance = true;
                             if(isInstance)
                             {
-                                var instpath = idleInstances_TreeView.SelectedNode.FullPath;
+                                var instpath = GetAnySelectedNode().FullPath;
                                 var wizard = new InstanceCreationWizard();
                                 wizard.Order = new[] { CreatorTab.Start, CreatorTab.DownloadLink };
                                 wizard.instanceName_TextBox.Text = instpath.Substring(MiscTools.CommonStartsWith(instpath, mcServerPath_TextBox.Text).Length);
@@ -350,19 +372,70 @@ namespace MCServerManager2
 
         private void deleteInstances_Button_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Do you REALLY want to delete this PERMANENTLY?", "Are you sure?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            if(idleInstances_TreeView.SelectedNode != null)
             {
-                if (MessageBox.Show("Do you REALLY REALLY want to delete this PERMANENTLY?", "Are you REALLY sure?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                var toRemove = idleInstances_TreeView.SelectedNode.FullPath;
+                if (MessageBox.Show(this, "Are you using BungeeCord? If using it, you must select the INSTANCE, not a containing folder", "BungeeCord", MessageBoxButtons.YesNoCancel) == DialogResult.Yes)
                 {
-                    if (MessageBox.Show("It's PERMANENT. Do you REALLY want to do this?", "ARE YOU REALLY SURE?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+
+                    var bungeeLocation = mcServerPath_TextBox.Text.BetterPathJoinSlash(TextPrompt.Prompt("Type the BungeeCord instance location", "BungeeCord", false, false));
+
+                    var configpath = bungeeLocation.BetterPathJoinSlash("config.yml");
+
+                    if (handler.SftpHandler._Client.Exists(configpath))
                     {
-                        if (MessageBox.Show("By clicking OK, the instance tree will be PERMANENTLY DELETED. THIS IS YOUR LAST CHANCE TO CLICK CANCEL.", "THIS IS YOUR LAST CHANCE!", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                        List<string> file = new List<string>(handler.SftpHandler._Client.ReadAllLines(configpath));
+
+                        var shortname = toRemove.Split('/').Last().Replace(' ', '_');
+                        var instanceIndex = file.IndexOf("  " + shortname + ":");
+
+                        if (instanceIndex < 0)
                         {
-                            handler.SshHandler.RunCommand("rm -rf " + idleInstances_TreeView.SelectedNode.FullPath);
+                            MessageBox.Show("Instance wasn't found in BungeeCord config!");
+                        }
+                        else
+                        {
+                            var instanceDefinitionLength = 4;
+                            for (int i = 0; i < instanceDefinitionLength; i++)
+                            {
+                                file.RemoveAt(instanceIndex);
+                            }
+
+                            // because sftp writealllines doesn't overwrite the entire file
+                            handler.SftpHandler._Client.DeleteFile(configpath);
+
+                            handler.SftpHandler._Client.WriteAllLines(configpath, file);
+
+                            handler.SshHandler.RunCommand("rm -rf " + toRemove);
                             RefreshViews();
                         }
                     }
+                    else
+                    {
+                        MessageBox.Show("It's not a BungeeCord instance or there's no config.yml");
+                    }
                 }
+                else
+                {
+                    if (MessageBox.Show("Do you REALLY want to delete this PERMANENTLY?", "Are you sure?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                    {
+                        if (MessageBox.Show("Do you REALLY REALLY want to delete this PERMANENTLY?", "Are you REALLY sure?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                        {
+                            if (MessageBox.Show("It's PERMANENT. Do you REALLY want to do this?", "ARE YOU REALLY SURE?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                            {
+                                if (MessageBox.Show("By clicking OK, the instance tree will be PERMANENTLY DELETED. THIS IS YOUR LAST CHANCE TO CLICK CANCEL.", "THIS IS YOUR LAST CHANCE!", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                                {
+                                    handler.SshHandler.RunCommand("rm -rf " + toRemove);
+                                    RefreshViews();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select a directory in the idle instances.");
             }
         }
 
@@ -376,7 +449,7 @@ namespace MCServerManager2
         private void openFolder_Button_Click(object sender, EventArgs e)
         {
             TreeNode node;
-            if((node = idleInstances_TreeView.SelectedNode) != null)
+            if((node = GetAnySelectedNode()) != null)
             {
                 var selected = node.FullPath;
                 var loc = mountPoint_TextBox.Text + selected.Substring(MiscTools.CommonStartsWith(selected, remoteLocation_TextBox.Text).Length).Replace('/', Path.DirectorySeparatorChar);
@@ -392,6 +465,27 @@ namespace MCServerManager2
         private void MainForm_ResizeEnd(object sender, EventArgs e)
         {
             this.ResumeLayout();
+        }
+
+        private TreeNode GetAnySelectedNode()
+        {
+            return idleInstances_TreeView.SelectedNode != null ? idleInstances_TreeView.SelectedNode : runningInstances_TreeView.SelectedNode != null ? runningInstances_TreeView.SelectedNode : null;
+        }
+
+        private void runningInstances_TreeView_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        {
+            if(idleInstances_TreeView.SelectedNode != null)
+            {
+                idleInstances_TreeView.SelectedNode = null;
+            }
+        }
+
+        private void idleInstances_TreeView_BeforeSelect(object sender, TreeViewCancelEventArgs e)
+        {
+            if (runningInstances_TreeView.SelectedNode != null)
+            {
+                runningInstances_TreeView.SelectedNode = null;
+            }
         }
     }
 }

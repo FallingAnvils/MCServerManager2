@@ -28,5 +28,7 @@ namespace MCServerManager2
         public bool ExpandAllOnStart;
         public string MountPoint;
         public string RemoteLocation;
+        public string ModpackDownloaderExeName;
+        public string BungeeCordHandlerExeName;
     }
 }

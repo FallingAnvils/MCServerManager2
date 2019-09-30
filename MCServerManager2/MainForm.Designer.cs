@@ -80,6 +80,7 @@
             this.runningInstances_TreeView.PathSeparator = "/";
             this.runningInstances_TreeView.Size = new System.Drawing.Size(359, 420);
             this.runningInstances_TreeView.TabIndex = 0;
+            this.runningInstances_TreeView.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.runningInstances_TreeView_BeforeSelect);
             // 
             // idleInstances_TreeView
             // 
@@ -90,6 +91,7 @@
             this.idleInstances_TreeView.PathSeparator = "/";
             this.idleInstances_TreeView.Size = new System.Drawing.Size(359, 420);
             this.idleInstances_TreeView.TabIndex = 1;
+            this.idleInstances_TreeView.BeforeSelect += new System.Windows.Forms.TreeViewCancelEventHandler(this.idleInstances_TreeView_BeforeSelect);
             // 
             // open_Button
             // 
@@ -409,14 +411,14 @@
             // documentationToolStripMenuItem
             // 
             this.documentationToolStripMenuItem.Name = "documentationToolStripMenuItem";
-            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.documentationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.documentationToolStripMenuItem.Text = "Documentation";
             this.documentationToolStripMenuItem.Click += new System.EventHandler(this.documentationToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
