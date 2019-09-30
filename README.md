@@ -8,8 +8,10 @@ Cross platform means?
 * **DON'T USE WINE**
 
 # Requirements to use
-* a Unix (I use Linux, but it *might* work on other Unixes) server with an SSH/SFTP server and the following commands available:
+* a Unix (I use Linux, but it *might* work on other Unixes) server with an SSH/SFTP server (I use OpenSSH, don't know if it works on anything else...) and the following commands available:
 * ``rm``, ``find``, ``screen``, ``grep``, ``realpath``, ``tree``, ``while`` (at least ``while`` in bash, I guess), ``mpstat``, ``test``, ``cat``, ``wget``, ``curl``
+* Do I know if you can use other versions of some of these tools besides the latest GNU ones? No!
+* You're welcome to try if you want.
 * /proc/cpuinfo with a frequency for each core is needed (if it isn't like this it'll probably crash at the moment)
 
 **MAKE SURE YOU HAVE ALL OF THESE COMMANDS AVAILABLE WITH THE OPTIONS USED IN THE PROGRAM!!! AND YOU NEED SFTP!!!**
