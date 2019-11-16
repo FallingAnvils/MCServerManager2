@@ -99,7 +99,8 @@ namespace MCServerManager2
             handler.SshHandler._Client.ErrorOccurred += sshError;
             handler.SftpHandler._Client.ErrorOccurred += sshError;
 
-            MiscTools.SpawnBackgroundWorker(() => connected_ToolStripLabel.Text = handler.Connect() ? "Connected" : "Failed to connect", () => {
+                                                  // so now visual studio wants to complain about you... but you work fine... and what about the stuff after it?
+            MiscTools.SpawnBackgroundWorker(() => this.Invoke((MethodInvoker)(() => connected_ToolStripLabel.Text = handler.Connect() ? "Connected" : "Failed to connect")), () => {
                 if(handler.IsConnected) // things to run as soon as connected
                 {
                     mcServerPath_TextBox.Text = handler.SshHandler.RealPath(mcServerPath_TextBox.Text);
@@ -290,7 +291,7 @@ namespace MCServerManager2
                 switch(modifyTypeChooser.SelectionBox.SelectedItem)
                 {
                     case "Modify":
-                        if (GetAnySelectedNode() != null)
+                        /*if (GetAnySelectedNode() != null)
                         {
                             var modifier = new InstanceModifier();
                             modifier.Editor = Editor;
@@ -301,7 +302,8 @@ namespace MCServerManager2
                         else
                         {
                             MessageBox.Show("Select a directory in the idle instances.");
-                        }
+                        }*/
+                        MessageBox.Show("This is pretty broken and useless right now. You should probably just have the drive mounted and use your own text editor and other programs.");
                         break;
                     case "Update":
                         if (GetAnySelectedNode() != null)

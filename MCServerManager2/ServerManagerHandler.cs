@@ -10,6 +10,8 @@ namespace MCServerManager2
 {
     public class ServerManagerHandler
     {
+        public const string ServerScreenPrefix = "MSM.";
+
         public PuttyOpener PuttyOpener;
         public SshHandler SshHandler;
         public SftpHandler SftpHandler;
@@ -66,7 +68,7 @@ namespace MCServerManager2
         {
             var dir = MiscTools.DirWithoutFile(launchScriptPath);
             var cd = "cd " + dir.Quotate();
-            var sessionName = dir.Replace('/', ':');
+            var sessionName = ServerScreenPrefix + dir.Replace('/', ':');
             var fullCmd = cd.CombineCommand("screen -dmS " + sessionName.Quotate() + " ./launch.sh");
             SshHandler.RunCommand(fullCmd);
         }
