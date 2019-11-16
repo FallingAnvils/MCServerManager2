@@ -112,7 +112,8 @@ namespace MCServerManager2
         {           
             return
                 GetRunningScreensRaw()
-                .Select(x => x.Substring(x.IndexOf(".") + 1))
+                .Where(x => x.Contains(ServerManagerHandler.ServerScreenPrefix))
+                .Select(x => x.Substring(x.IndexOf(".") + 1 + ServerManagerHandler.ServerScreenPrefix.Length /*the prefix so we don't care about other screens*/))
                 .Select(x => x.Replace(':', '/'))
                 .Select(x => x + "launch.sh");
         } 
