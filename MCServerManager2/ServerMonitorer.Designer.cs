@@ -166,13 +166,13 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1185, 43);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1053, 43);
             this.tableLayoutPanel1.TabIndex = 8;
             // 
             // externalIP_Label
             // 
             this.externalIP_Label.AutoSize = true;
-            this.externalIP_Label.Location = new System.Drawing.Point(988, 21);
+            this.externalIP_Label.Location = new System.Drawing.Point(878, 21);
             this.externalIP_Label.Name = "externalIP_Label";
             this.externalIP_Label.Size = new System.Drawing.Size(35, 13);
             this.externalIP_Label.TabIndex = 11;
@@ -181,7 +181,7 @@
             // localIP_Label
             // 
             this.localIP_Label.AutoSize = true;
-            this.localIP_Label.Location = new System.Drawing.Point(791, 21);
+            this.localIP_Label.Location = new System.Drawing.Point(703, 21);
             this.localIP_Label.Name = "localIP_Label";
             this.localIP_Label.Size = new System.Drawing.Size(35, 13);
             this.localIP_Label.TabIndex = 10;
@@ -190,7 +190,7 @@
             // architecture_Label
             // 
             this.architecture_Label.AutoSize = true;
-            this.architecture_Label.Location = new System.Drawing.Point(594, 21);
+            this.architecture_Label.Location = new System.Drawing.Point(528, 21);
             this.architecture_Label.Name = "architecture_Label";
             this.architecture_Label.Size = new System.Drawing.Size(35, 13);
             this.architecture_Label.TabIndex = 9;
@@ -199,7 +199,7 @@
             // osVersion_Label
             // 
             this.osVersion_Label.AutoSize = true;
-            this.osVersion_Label.Location = new System.Drawing.Point(397, 21);
+            this.osVersion_Label.Location = new System.Drawing.Point(353, 21);
             this.osVersion_Label.Name = "osVersion_Label";
             this.osVersion_Label.Size = new System.Drawing.Size(35, 13);
             this.osVersion_Label.TabIndex = 8;
@@ -208,7 +208,7 @@
             // os_Label
             // 
             this.os_Label.AutoSize = true;
-            this.os_Label.Location = new System.Drawing.Point(200, 21);
+            this.os_Label.Location = new System.Drawing.Point(178, 21);
             this.os_Label.Name = "os_Label";
             this.os_Label.Size = new System.Drawing.Size(35, 13);
             this.os_Label.TabIndex = 7;
@@ -226,7 +226,7 @@
             // txtos_Label
             // 
             this.txtos_Label.AutoSize = true;
-            this.txtos_Label.Location = new System.Drawing.Point(200, 0);
+            this.txtos_Label.Location = new System.Drawing.Point(178, 0);
             this.txtos_Label.Name = "txtos_Label";
             this.txtos_Label.Size = new System.Drawing.Size(22, 13);
             this.txtos_Label.TabIndex = 1;
@@ -235,7 +235,7 @@
             // txtosVersion_Label
             // 
             this.txtosVersion_Label.AutoSize = true;
-            this.txtosVersion_Label.Location = new System.Drawing.Point(397, 0);
+            this.txtosVersion_Label.Location = new System.Drawing.Point(353, 0);
             this.txtosVersion_Label.Name = "txtosVersion_Label";
             this.txtosVersion_Label.Size = new System.Drawing.Size(42, 13);
             this.txtosVersion_Label.TabIndex = 2;
@@ -244,7 +244,7 @@
             // txtarchitecture_Label
             // 
             this.txtarchitecture_Label.AutoSize = true;
-            this.txtarchitecture_Label.Location = new System.Drawing.Point(594, 0);
+            this.txtarchitecture_Label.Location = new System.Drawing.Point(528, 0);
             this.txtarchitecture_Label.Name = "txtarchitecture_Label";
             this.txtarchitecture_Label.Size = new System.Drawing.Size(64, 13);
             this.txtarchitecture_Label.TabIndex = 3;
@@ -253,7 +253,7 @@
             // txtlocalIP_Label
             // 
             this.txtlocalIP_Label.AutoSize = true;
-            this.txtlocalIP_Label.Location = new System.Drawing.Point(791, 0);
+            this.txtlocalIP_Label.Location = new System.Drawing.Point(703, 0);
             this.txtlocalIP_Label.Name = "txtlocalIP_Label";
             this.txtlocalIP_Label.Size = new System.Drawing.Size(46, 13);
             this.txtlocalIP_Label.TabIndex = 4;
@@ -262,7 +262,7 @@
             // txtexternalIP_Label
             // 
             this.txtexternalIP_Label.AutoSize = true;
-            this.txtexternalIP_Label.Location = new System.Drawing.Point(988, 0);
+            this.txtexternalIP_Label.Location = new System.Drawing.Point(878, 0);
             this.txtexternalIP_Label.Name = "txtexternalIP_Label";
             this.txtexternalIP_Label.Size = new System.Drawing.Size(58, 13);
             this.txtexternalIP_Label.TabIndex = 5;
@@ -298,7 +298,7 @@
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 43);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1185, 585);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1053, 519);
             this.flowLayoutPanel1.TabIndex = 10;
             // 
             // tableLayoutPanel2
@@ -414,7 +414,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1185, 628);
+            this.ClientSize = new System.Drawing.Size(1053, 562);
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.tableLayoutPanel1);
             this.DoubleBuffered = true;
